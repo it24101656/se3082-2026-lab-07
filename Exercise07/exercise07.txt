@@ -1,2 +1,40 @@
 IT24101656
 PC_Lab 07 (Exercise 07)
+
+1. Comparison of the Programs
+
+Exercise 1 – sum_bcast: Uses MPI_Bcast and MPI_Send/Recv. Every rank gets the full array, and the final result is on the root.
+
+Exercise 2 – sum_scatter: Uses MPI_Scatter so each rank only gets its own part of the array. The final result is still on the root.
+
+Exercise 3 – sum_gather: Uses MPI_Gather to collect the partial sums at the root, where they are added together.
+
+Exercise 4 – sum_reduce: Uses MPI_Reduce to calculate the final sum directly on the root.
+
+Exercise 5 – sum_allreduce: Uses MPI_Allreduce, so every rank gets the same final total.
+
+Exercise 6 – sum_scan: Uses MPI_Scan, so each rank gets a different cumulative sum based on the ranks before it.
+
+Overall, the programs gradually improve how the data and results are handled, starting from sending the full array to using smaller chunks and different ways of collecting the results.
+
+2. Execution Time Summary
+
+The programs were tested with 2, 4, and 8 processes.
+
+sum_bcast: 0.0032 s, 0.0067 s, 0.0105 s
+
+sum_scatter: 0.0031 s, 0.0022 s, 0.0017 s
+
+sum_gather: 0.0028 s, 0.0029 s, 0.0030 s
+
+sum_reduce: 0.0033 s, 0.0024 s, 0.0018 s
+
+The main difference I noticed is that sum_bcast became slower as more processes were used, while sum_scatter and sum_reduce generally became faster. Since the programs only take a few milliseconds, the exact times can change slightly between runs.
+
+3. When to Use MPI_Scan
+
+Use MPI_Allreduce when all ranks need the same final answer.
+
+Use MPI_Scan when each rank needs a different cumulative result.
+
+For example, MPI_Scan can be used when each rank needs to know where its own data should start in a shared array or output file. This is similar to th_
