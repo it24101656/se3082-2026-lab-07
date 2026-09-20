@@ -1,2 +1,17 @@
 IT24101656
 PC_Lab 07 (Exercise 04)
+
+1. What Changed from Exercise 3
+The all_sums array and the manual loop for adding the sums are removed.
+
+MPI_Gather is replaced with:
+
+	MPI_Reduce(&local_sum, &total_sum, 1, MPI_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+
+After MPI_Reduce, total_sum on the root process already contains the final answer, so no separate adding loop is needed.
+
+2. Important Point
+
+MPI_Reduce collects and adds the values in one step, using a tree-based process, so it can take about O(log P) steps.
+
+The final total_sum is only available on the root process. On the other ranks, it should not be used because its value is not meaningful there.

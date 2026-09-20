@@ -1,2 +1,20 @@
 IT24101656
 PC_Lab 07 (Exercise 05)
+
+1. What Changed from Exercise 4
+
+MPI_Reduce is replaced with MPI_Allreduce:
+
+	MPI_Allreduce(&local_sum, &total_sum, 1, MPI_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
+
+There is no root specified because every rank gets the result.
+
+Now every rank can print its local_sum, the total_sum, and its percentage of the total.
+
+Root still prints the Correct? check.
+
+2. Important Point
+
+MPI_Allreduce is basically Reduce + Bcast in one call, so the result is available to all ranks.
+
+It is useful when all processes need the final answer, instead of only the root.
