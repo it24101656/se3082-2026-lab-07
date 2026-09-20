@@ -1,2 +1,23 @@
 IT24101656
 PC_Lab 07 (Exercise 06)
+
+1. What Changed from Exercise 5
+
+MPI_Allreduce is replaced with:
+	MPI_Scan(&local_sum, &prefix_sum, 1, MPI_LONG_LONG, MPI_SUM, MPI_COMM_WORLD);
+
+Each rank gets a different result. It gets the sum of all local_sum values from rank 0 up to that rank.
+
+Each rank prints its local_sum, prefix_sum, and sum_before_me = prefix_sum - local_sum.
+
+As a bonus check, prefix_sum should equal K*(K+1)/2, where K = (rank+1) * chunk_size.
+
+Each rank prints MATCH or MISMATCH depending on whether the result is correct.
+
+The last rank has the global total, so it prints the Correct? check.
+
+2.Important Point
+
+sum_before_me gives each rank its global offset, meaning the total sum of the values belonging to the ranks before it.
+
+This can be useful when each rank needs to know its starting position in a shared array or file, without having to send extra messages between the ranks.
