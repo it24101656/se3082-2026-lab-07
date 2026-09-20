@@ -1,0 +1,17 @@
+IT24101656
+PC_Lab 07 (Exercise 03)
+
+1. What Changed from Exercise 2
+Root creates all_sums[size], which stores one partial sum from each process.
+
+The whole if/else MPI_Send / MPI_Recv block is replaced with one MPI_Gather:
+
+	MPI_Gather(&local_sum, 1, MPI_LONG_LONG, all_sums, 1, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+
+Root then loops through all_sums and adds all the partial sums together to get the final total.
+
+2. Important Point
+
+MPI_Gather only collects the values in rank order. It does not add them together.
+
+Therefore, root still needs its own loop to calculate the final total.
