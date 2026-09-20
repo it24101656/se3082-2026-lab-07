@@ -1,0 +1,21 @@
+IT24101656
+PC_Lab 07 (Exercise 02)
+
+1. What Changed from Exercise 1
+
+Only the root process allocates the full array. The other ranks have array = NULL.
+
+Each process allocates a smaller local_chunk with N / size = 250,000 integers.
+
+MPI_Bcast is replaced with MPI_Scatter, which sends only the required part of the array to each process.
+
+sendcount is chunk_size (250,000), not N, because it represents the number of elements sent to each process.
+
+The sum loop now works on local_chunk instead of the full array.
+
+The MPI_Send and MPI_Recv part is kept the same as in Exercise 1.
+
+2.Why It Is Better
+
+Each process only receives and stores the part of the array it actually needs. 
+So, memory usage is reduced from 4 MB per process to about 1 MB per process, and less unnecessary data is transferred between processes.

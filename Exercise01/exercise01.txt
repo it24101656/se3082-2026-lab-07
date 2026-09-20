@@ -1,0 +1,22 @@
+IT24101656
+PC_Lab 07 (Exercise 01)
+
+1. What the Program Does
+
+The root process (rank 0) creates and fills an array with the numbers 1 to 1,000,000.
+
+MPI_Bcast sends the entire array from the root process to all other processes.
+
+Each process calculates the sum of its assigned quarter of the array (250,000 numbers when using 4 processes).
+
+Ranks 1, 2, and 3 send their partial sums to the root process using MPI_Send.
+
+The root process receives the partial sums using MPI_Recv and adds them together to get the final sum.
+
+2.Problems With This Version
+
+Every process allocates memory for the entire 4 MB array, even though each process only needs one quarter of the data.
+
+MPI_Bcast transfers the whole array to every process, which causes unnecessary data communication.
+
+The root process receives each partial sum one by one using MPI_Recv, so it has to handle P-1 receive operations. This can become inefficient as the number of processes increases.
